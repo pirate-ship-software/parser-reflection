@@ -20,6 +20,7 @@ use Go\ParserReflection\ReflectionParameter;
 use PhpParser\Node\Expr\Closure;
 use PhpParser\Node\FunctionLike;
 use PhpParser\Node\Identifier;
+use PhpParser\Node\IntersectionType;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\UnionType;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -205,6 +206,8 @@ trait ReflectionFunctionLikeTrait
             $returnType = $returnType->toString();
         } elseif ($returnType instanceof UnionType) {
             $returnType = implode('|', $returnType->types);
+        } elseif ($returnType instanceof IntersectionType) {
+            $returnType = implode('&', $returnType->types);
         } elseif (is_object($returnType)) {
             $returnType = $returnType->toString();
         } elseif (is_string($returnType)) {
